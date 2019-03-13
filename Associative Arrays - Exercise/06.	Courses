@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ex65.Courses
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            var students = new Dictionary<string, List<string>>();
+
+            while(true)
+            {
+                char kavichki = ':';
+                string command = Console.ReadLine();
+                if ( command == "end")
+                {
+                    break;
+                }
+                string[] tokens = command.Split(kavichki).ToArray();
+                string course = tokens[0].TrimEnd();
+                string studentName = tokens[1];
+                if ( !students.ContainsKey(course))
+                {
+                    students[course] = new List<string>();
+                    students[course].Add(studentName);
+                }
+                else
+                {
+                    students[course].Add(studentName);
+                }
+            }
+            foreach (var student in students.OrderByDescending(x => x.Value.Count))
+            {
+                var sorted = student.Value;
+                sorted.Sort();
+                Console.WriteLine($"{ student.Key}: { student.Value.Count}");
+                foreach (var item in sorted)
+                {
+                    Console.WriteLine($"--{item}");
+                }
+            }
+
+        }
+    }
+}
