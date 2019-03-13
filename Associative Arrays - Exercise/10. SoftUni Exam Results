@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ex10.SoftUni_Exam_Results
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int> namePoints = new Dictionary<string, int>();
+            Dictionary<string, int> languageCount = new Dictionary<string, int>();
+
+            while ( true)
+            {
+                char tire = '-';
+                string input = Console.ReadLine();
+              if ( input == "exam finished") { break; };
+                string[] tokens = input.Split(tire);
+                string name = tokens[0];
+                string language = tokens[1];
+                if(language == "banned")
+                {
+                    namePoints.Remove(name);
+                    continue;
+                }
+
+
+
+                int points = int.Parse(tokens[2]);
+                if( !namePoints.ContainsKey(name))
+                {
+                    namePoints[name] = points;
+                }
+                else
+                {
+                    if (points > namePoints[name])
+                    {
+                        namePoints[name] = points;
+                    }
+                }
+                if ( !languageCount.ContainsKey(language))
+                {
+                    languageCount[language] = 1;
+                }
+                else
+                {
+                    languageCount[language]++;
+                }
+
+
+
+
+
+            }
+            Console.WriteLine("Results:");
+
+            Console.WriteLine(string.Join(Environment.NewLine,namePoints.OrderByDescending(x=> x.Value).ThenBy(k=> k.Key). Select(a=> $"{a.Key} | {a.Value}")));
+
+            Console.WriteLine("Submissions:");
+           
+
+            Console.WriteLine(string.Join(Environment.NewLine, languageCount.OrderBy(x=>x.Key).ThenBy(k=> k.Key) .Select(a => $"{a.Key} - {a.Value}")));
+
+
+        }
+    }
+}
