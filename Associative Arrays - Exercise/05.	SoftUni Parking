@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _05.SoftUni_Parking
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Dictionary<string, string> validion = new Dictionary<string, string>();
+           
+            int numbersOfvalidation = int.Parse(Console.ReadLine());
+            for (int i = 0; i < numbersOfvalidation; i++)
+            {
+                string[] input = Console.ReadLine().Split();
+                string command = input[0];
+                string name = input[1];
+                
+                if (command == "register")
+                {
+                    string license = input[2];
+                    if (!validion.ContainsKey(name))
+                    {
+                        validion[name] = license;
+                        Console.WriteLine($"{name} registered {license} successfully");
+                    }
+                    else if  (!validion.ContainsValue(license) || validion.ContainsKey(name))
+                    {
+                        Console.WriteLine($"ERROR: already registered with plate number {validion[name]}");
+                        continue;
+                    }
+
+
+                }
+                else if ( command == "unregister")
+                {
+
+                    if ( !validion.ContainsKey(name))
+                    {
+                        Console.WriteLine($"ERROR: user {name} not found");
+                    }
+                    else
+                    {
+                        validion.Remove(name);
+                        Console.WriteLine($"{name} unregistered successfully");
+                    }
+
+
+
+                }
+               
+
+
+
+            }
+            foreach (var item in validion)
+            {
+                Console.WriteLine($"{item.Key} => {item.Value}");
+            }
+
+
+        }
+    }
+}
