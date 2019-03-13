@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ex8ForceBook
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string pipe = "|";
+            Dictionary<string, string> nameSide = new Dictionary<string, string>();
+            while (true)
+            {
+                
+                string input = Console.ReadLine();
+                if ( input == "Lumpawaroo")
+                {
+                    break;
+                }
+                
+                if ( input.Contains(pipe))
+                {
+                    string[] tokens = input.Split(new string[] { " | " }, StringSplitOptions.None);
+                    string forceSide = tokens[0];
+                    string name = tokens[1];
+
+                    if ( !nameSide.ContainsKey(name))
+                    {
+                        nameSide[name] = forceSide;
+                    }
+
+
+                }
+                else
+                {
+                    string[] tokens = input.Split(new string[] { " -> " }, StringSplitOptions.None);
+
+                    string forceSide = tokens[1];
+                    string name = tokens[0];
+                    if (nameSide.ContainsKey(name))
+                    {
+                        nameSide[name] = forceSide;
+                    }
+                    else
+                    {
+                        nameSide[name] = forceSide;
+                    }
+                    Console.WriteLine($"{name} joins the { forceSide} side!" );
+
+
+                }
+                
+
+              
+            }
+            var filtredname = nameSide.
+                    GroupBy(x => x.Value).
+                    ToDictionary(x => x.Key, x => x.ToDictionary(y => y.Key, y => y.Value))
+                    .OrderByDescending(x => x.Value.Count).
+                    ThenBy(c => c.Key);
+            foreach (var kvp in filtredname)
+            {
+                string side = kvp.Key;
+                Dictionary<string,string> nameSideValue = kvp.Value;
+                Console.WriteLine($"Side: {side}, Members: {nameSideValue.Count}");
+                foreach (var kvpvalue in nameSideValue.OrderBy(x=> x.Key))
+                {
+                    string name = kvpvalue.Key;
+                    string sideValue = kvpvalue.Value;
+                    Console.WriteLine($"! {name}");
+                }
+            }
+
+        }
+    }
+}
