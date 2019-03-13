@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ex6.Student_Academy
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            int lines = int.Parse(Console.ReadLine());
+            Dictionary<string, List<double>> studentInfo = new Dictionary<string, List<double>>();
+            for (int i = 0; i < lines; i++)
+            {
+                string NameOfStudent = Console.ReadLine();
+                double GradeOfStudent = double.Parse(Console.ReadLine());
+                if (!studentInfo.ContainsKey(NameOfStudent))
+                {
+                    studentInfo[NameOfStudent] = new List<double>();
+                    studentInfo[NameOfStudent].Add(GradeOfStudent);
+                }
+
+                else
+                {
+                    studentInfo[NameOfStudent].Add(GradeOfStudent);
+                }
+
+
+
+            }
+            
+            foreach (var item in studentInfo.Where(x=> x.Value.Average() >=4.50).OrderByDescending(x=> x.Value.Average()))
+            {
+                Console.WriteLine($"{ item.Key} -> { item.Value.Average():f2}");
+            }
+
+
+
+        }
+    }
+}
