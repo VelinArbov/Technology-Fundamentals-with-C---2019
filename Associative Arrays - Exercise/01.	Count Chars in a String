@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ex1.Count_Chars_in_a_String
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string word = Console.ReadLine();
+            
+            var charSum = new Dictionary<char, int>();
+
+            for (int i = 0; i < word.Length; i++)
+            {
+                if ( word[i] ==' ')
+                {
+                    continue;
+                }
+                char currentChar = word[i];
+                if (!charSum.ContainsKey(currentChar))
+                {
+                    charSum[currentChar] = 1;
+                }
+                else
+                {
+                    charSum[currentChar]++;
+                }
+            }
+            foreach (var item in charSum)
+            {
+                Console.WriteLine($"{item.Key} -> {item.Value}");
+            }
+            
+        }
+    }
+}
