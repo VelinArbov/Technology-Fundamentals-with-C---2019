@@ -1,0 +1,129 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace More_Exercises_Dictionaries_and.LINQ.Ranking
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            Dictionary<string, Dictionary<string,int>> FirstContest = new Dictionary<string, Dictionary<string, int>>();
+            Dictionary<string, string> submission = new Dictionary<string, string>();
+            
+            while (true)
+            {
+               
+               string input = Console.ReadLine();
+                if (input == "end of contests")
+                {
+                    break;
+                }
+                string[] tokens = input.Split(':');
+                string contest = tokens[0];
+                string password = tokens[1];
+                if (! submission.ContainsKey(contest) )
+                {
+                    submission[contest] = password;
+                }
+
+            }
+            while(true)
+            {
+                string input = Console.ReadLine();
+                if (input == "end of submissions")
+                {
+                    break;
+                }
+                string[] tokens = input.Split(new string[] { "=>" }, StringSplitOptions.None);
+                string contest = tokens[0];
+                string password = tokens[1];
+                if ( submission.ContainsKey(contest) && submission.ContainsValue(password))
+                {
+                    int points = int.Parse(tokens[3]);
+                    string name = tokens[2];
+
+
+                    if (!FirstContest.ContainsKey(name))
+
+                    {
+                        FirstContest.Add(name, new Dictionary<string, int>());
+                        FirstContest[name].Add(contest, points);
+                    }
+                    
+                        if (FirstContest[name].ContainsKey(contest))
+                        {
+                          if ( FirstContest[name][contest] < points)
+
+                            {
+                                FirstContest[name][contest] = points;
+                            }
+
+
+                        }
+                        else
+                        {
+
+                            FirstContest[name].Add(contest, points);
+
+
+                        }
+
+
+
+
+
+                    }
+
+                  
+
+
+
+
+                }
+            Dictionary<string, int> usernameTotalPoints = new Dictionary<string, int>();
+            foreach (var kvp in FirstContest)
+            {
+                usernameTotalPoints[kvp.Key] = kvp.Value.Values.Sum();
+            }
+            string bestName = usernameTotalPoints
+                .Keys
+                .Max();
+            int bestPoints = usernameTotalPoints
+                .Values
+                .Max();
+
+            foreach (var kvp in usernameTotalPoints)
+            {
+                if (kvp.Value == bestPoints)
+                {
+                    Console.WriteLine($"Best candidate is {kvp.Key} with total {kvp.Value} points.");
+
+                }
+            }
+
+            Console.WriteLine("Ranking:");
+            foreach (var name in FirstContest.OrderBy(x=>x.Key))
+            {
+                Dictionary<string, int> dict = name.Value;
+                dict = dict.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+                Console.WriteLine("{0}", name.Key);
+                foreach (var kvp in dict)
+                {
+                    Console.WriteLine("#  {0} -> {1}", kvp.Key, kvp.Value);
+                }
+
+            }
+           
+
+            }
+        }
+    }
+
+
+
+        
+   
